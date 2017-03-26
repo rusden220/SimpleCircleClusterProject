@@ -13,11 +13,12 @@ using System.Diagnostics;
 namespace SimpleCircleClusterProject
 {
 	
-	public partial class MainForm : Form
+	public partial class MainForm : Form, IRenderableForm
 	{
 		private Bitmap _mainBitmap;
 		private int _pointRadius = 3;
 		private SimpleCircleCluster _scc;
+		private Renderer _render;
 		public MainForm()
 		{
 			InitializeComponent();
@@ -25,27 +26,41 @@ namespace SimpleCircleClusterProject
 			this.BackColor = Color.White;
 			mainPanel.MouseDown += MainPanel_MouseDown;
 			mainPanel.Paint += MainPanel_Paint;
-			mainPanel.Click += MainPanel_Click;
-
+			mainPanel.Click += MainPanel_Click;			
 			Init();
+			_render.RenderData = new RenderData() {IntersectionPointColor = Color.Black, PointRadius = 3, SimpleCircleCluster = _scc };
+			_render.RedrawForm();	
 		}
 		private void Init()
 		{
-			_mainBitmap = new Bitmap(mainPanel.Width, mainPanel.Height);
-			GetGraphicsFromMainBitmap().Clear(Color.White);
+			_mainBitmap = new Bitmap(mainPanel.Width, mainPanel.Height);		
 			_scc = new SimpleCircleCluster();
 			circleToolStripMenuItem.Checked = true;
 			linesToolStripMenuItem.Checked = true;
-			mainPanel.Invalidate();
+			intersectionPointToolStripMenuItem.Checked = true;
+			_render = new Renderer(this);
+			_render.ClearBitmap(Color.White);			
 			//GetGraphicsFromMainBitmap().DrawRectangle(new Pen(Color.Black,1),  0, 0, _mainBitmap.Width-1, _mainBitmap.Height-1);
+		}
+		public Bitmap GetMainBitmap()
+		{
+			return _mainBitmap;
+		}
+		private void MainPanelInvalidate()
+		{
+			_render.RenderData.IsDrawPoints = true;
+			_render.RenderData.IsDrawCircle = circleToolStripMenuItem.Checked;
+			_render.RenderData.IsDrawLines = linesToolStripMenuItem.Checked;
+			_render.RenderData.IsDrawIntersectionPoints = intersectionPointToolStripMenuItem.Checked;
+			_render.RedrawForm();
+			mainPanel.Invalidate();
 		}
 		private void MainPanel_Click(object sender, EventArgs e)
 		{
-			mainPanel.Invalidate();
+			MainPanelInvalidate();
 		}
 		private void MainPanel_Paint(object sender, PaintEventArgs e)
 		{
-			Render();
 			e.Graphics.DrawImage(_mainBitmap, 0, 0);
 		}
 		private void MainPanel_MouseDown(object sender, MouseEventArgs e)
@@ -55,67 +70,14 @@ namespace SimpleCircleClusterProject
 				sccD.Class = "Left";			
 			else if (e.Button == MouseButtons.Right)	
 				sccD.Class = "Right";
-			_scc.DataList.Add(sccD);			
+			_scc.DataList.Add(sccD);
 		}
-		private void Render()
-		{
-			GetGraphicsFromMainBitmap().Clear(Color.White);
-			DrawPoints();
-			if (circleToolStripMenuItem.Checked)
-				DrawCircles();
-			if (linesToolStripMenuItem.Checked)
-				DrawLines();
-
-			var g = GetGraphicsFromMainBitmap();
-			foreach (var data in _scc.IntersectionPoint)
-			{
-				float x = data.X;
-				float y = data.Y;
-				float r = 2;
-				g.FillEllipse(new SolidBrush(Color.Black), x - r, y - r, r * 2, r * 2);
-			}
-		}
-		private void DrawPoints()
-		{
-			var g = GetGraphicsFromMainBitmap();
-			foreach (var data in _scc.DataList)
-			{
-				float x = data.Point.X;
-				float y = data.Point.Y;
-				Color color = data.Class == "Right" ? Color.Green : Color.Blue;
-				g.FillEllipse(new SolidBrush(color), x - _pointRadius, y - _pointRadius, _pointRadius * 2, _pointRadius * 2);
-			}
-		}
-		private void DrawCircles()
-		{
-			var g = GetGraphicsFromMainBitmap();
-			foreach (var data in _scc.DataList)
-			{
-				float x = data.Point.X;
-				float y = data.Point.Y;
-				Color color = data.Class == "Right" ? Color.Green : Color.Blue;
-				g.DrawEllipse(new Pen(color, 1), x - data.ActionRadius, y - data.ActionRadius, data.ActionRadius * 2, data.ActionRadius * 2);
-			}
-		}
-		private void DrawLines()
-		{
-			var g = GetGraphicsFromMainBitmap();
-			var pen = new Pen(Color.Red, 1);
-			foreach (var item in _scc.CircleLines)
-				g.DrawLine(pen, item.PointSart, item.PointEnd);
-
-		}
-		private Graphics GetGraphicsFromMainBitmap()
-		{
-			Graphics result = Graphics.FromImage(_mainBitmap);
-			result.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;			
-			return result;
-		}
+		
 		private void processToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			_scc.SetLinesBetweenCircles();
 			_scc.SetPointOfIntersection();
-			mainPanel.Invalidate();	
+			MainPanelInvalidate();
 		}	
 		private void clearToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -131,5 +93,11 @@ namespace SimpleCircleClusterProject
 			linesToolStripMenuItem.Checked = !linesToolStripMenuItem.Checked;
 			mainPanel.Invalidate();
 		}
+		private void intersectionPointToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			intersectionPointToolStripMenuItem.Checked = !intersectionPointToolStripMenuItem.Checked;
+		}
+
+		
 	}
 }

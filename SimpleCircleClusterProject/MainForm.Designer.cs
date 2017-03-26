@@ -39,6 +39,7 @@
 			this.circleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.linesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainPanel = new System.Windows.Forms.Panel();
+			this.intersectionPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -69,7 +70,7 @@
             this.fileToolStripMenuItem1,
             this.formToolStripMenuItem});
 			this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-			this.loadToolStripMenuItem1.Size = new System.Drawing.Size(114, 22);
+			this.loadToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
 			this.loadToolStripMenuItem1.Text = "Load";
 			// 
 			// fileToolStripMenuItem1
@@ -87,14 +88,14 @@
 			// processToolStripMenuItem
 			// 
 			this.processToolStripMenuItem.Name = "processToolStripMenuItem";
-			this.processToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+			this.processToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.processToolStripMenuItem.Text = "Process";
 			this.processToolStripMenuItem.Click += new System.EventHandler(this.processToolStripMenuItem_Click);
 			// 
 			// clearToolStripMenuItem
 			// 
 			this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-			this.clearToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+			this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.clearToolStripMenuItem.Text = "Clear";
 			this.clearToolStripMenuItem.Click += new System.EventHandler(this.clearToolStripMenuItem_Click);
 			// 
@@ -102,7 +103,8 @@
 			// 
 			this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.circleToolStripMenuItem,
-            this.linesToolStripMenuItem});
+            this.linesToolStripMenuItem,
+            this.intersectionPointToolStripMenuItem});
 			this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
 			this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
 			this.viewToolStripMenuItem.Text = "View";
@@ -110,14 +112,14 @@
 			// circleToolStripMenuItem
 			// 
 			this.circleToolStripMenuItem.Name = "circleToolStripMenuItem";
-			this.circleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.circleToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
 			this.circleToolStripMenuItem.Text = "Circle";
 			this.circleToolStripMenuItem.Click += new System.EventHandler(this.circleToolStripMenuItem_Click);
 			// 
 			// linesToolStripMenuItem
 			// 
 			this.linesToolStripMenuItem.Name = "linesToolStripMenuItem";
-			this.linesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.linesToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
 			this.linesToolStripMenuItem.Text = "Lines";
 			this.linesToolStripMenuItem.Click += new System.EventHandler(this.linesToolStripMenuItem_Click);
 			// 
@@ -128,6 +130,13 @@
 			this.mainPanel.Name = "mainPanel";
 			this.mainPanel.Size = new System.Drawing.Size(1089, 490);
 			this.mainPanel.TabIndex = 1;
+			// 
+			// intersectionPointToolStripMenuItem
+			// 
+			this.intersectionPointToolStripMenuItem.Name = "intersectionPointToolStripMenuItem";
+			this.intersectionPointToolStripMenuItem.Size = new System.Drawing.Size(164, 22);
+			this.intersectionPointToolStripMenuItem.Text = "IntersectionPoint";
+			this.intersectionPointToolStripMenuItem.Click += new System.EventHandler(this.intersectionPointToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -160,6 +169,7 @@
 		private System.Windows.Forms.ToolStripMenuItem circleToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem linesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem intersectionPointToolStripMenuItem;
 	}
 }
 
